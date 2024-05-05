@@ -1,5 +1,6 @@
 import sys
 import time
+import datetime
 
 from finance_manager import add_transaction, edit_transaction, search_transactions, calculate_balance, \
     list_transactions, clear_transactions
@@ -29,15 +30,38 @@ def print_menu():
     print("7. Выход")
 
 
+def validate_date(date_string):
+    try:
+        return datetime.datetime.strptime(date_string, "%Y-%m-%d").date()
+    except ValueError:
+        print("Неверный формат даты. Используйте формат ГГГГ-ММ-ДД.")
+        return None
+
+
+def validate_amount(amount_string):
+    try:
+        amount = int(amount_string)
+        return f"{amount:,}".replace(',', ' ')
+    except ValueError:
+        print("Неверный формат суммы. Пожалуйста, введите число.")
+        return None
+
+
 def handle_add_transaction(trans_add):
     """
     Запрашивает данные у пользователя и добавляет новую транзакцию.
     """
-    date = input("Введите дату (ГГГГ-ММ-ДД): ")
+    date_input = input("Введите дату (ГГГГ-ММ-ДД): ")
+    date = validate_date(date_input)
+    if date is None:
+        return
     print("Выберите категорию:\n 1. Доход\n 2. Расход")
     category_choice = input("Ваш выбор (1 или 2): ")
     category = 'Доход' if category_choice == '1' else 'Расход'
-    amount = input("Введите сумму: ")
+    amount_input = input("Введите сумму: ")
+    amount = validate_amount(amount_input)
+    if amount is None:
+        return
     description = input("Введите описание: ")
     new_transaction = {'Дата': date, 'Категория': category, 'Сумма': amount, 'Описание': description}
     trans_add = add_transaction(trans_add, new_transaction)
@@ -53,11 +77,17 @@ def handle_edit_transaction(trans_edit):
     """
     transaction_index = int(input("Введите номер транзакции для редактирования: ")) - 1
     if 0 <= transaction_index < len(trans_edit):
-        date = input("Введите новую дату (ГГГГ-ММ-ДД): ")
+        date_input = input("Введите новую дату (ГГГГ-ММ-ДД): ")
+        date = validate_date(date_input)
+        if date is None:
+            return
         print("Выберите новую категорию:\n 1. Доход\n 2. Расход")
         category_choice = input("Ваш выбор (1 или 2): ")
         category = 'Доход' if category_choice == '1' else 'Расход'
-        amount = input("Введите новую сумму: ")
+        amount_input = input("Введите новую сумму: ")
+        amount = validate_amount(amount_input)
+        if amount is None:
+            return
         description = input("Введите новое описание: ")
         updated_transaction = {'Дата': date, 'Категория': category, 'Сумма': amount, 'Описание': description}
         edit_transaction(trans_edit, transaction_index, updated_transaction)
