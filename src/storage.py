@@ -18,7 +18,10 @@ def load_transactions(filepath: str) -> List[Dict[str, str]]:
 
 
 def save_transactions(filepath: str, transactions):
-    os.makedirs(os.path.dirname(filepath), exist_ok=True)  # Убедитесь, что директория существует
+    # Проверяем, есть ли директория в пути, и если нет, то используем текущую директорию
+    directory = os.path.dirname(filepath) or '.'
+    os.makedirs(directory, exist_ok=True)  # Убедитесь, что директория существует
+
     fieldnames = ['Дата', 'Категория', 'Сумма', 'Описание']
     try:
         with open(filepath, mode='w', newline='', encoding='utf-8') as file:

@@ -1,6 +1,6 @@
 import sys
 
-from finance_manager import add_transaction, edit_transaction, calculate_balance, list_transactions
+from finance_manager import add_transaction, edit_transaction, calculate_balance, list_transactions, clear_transactions
 from storage import load_transactions, save_transactions
 
 
@@ -11,7 +11,8 @@ def print_menu():
     print("3. Редактировать транзакцию")
     print("4. Поиск транзакций")
     print("5. Просмотреть все транзакции")
-    print("6. Выход")
+    print("6. Очистить все транзакции")
+    print("7. Выход")
 
 
 def handle_add_transaction(transactions):
@@ -58,7 +59,18 @@ def handle_search_transactions(transactions):
     pass
 
 
+def handle_clear_transactions():
+    """
+    Удаляет все транзакции и сохраняет изменения в файл.
+    """
+    global transactions  # Используем глобальную переменную, если она введена
+    transactions = clear_transactions()  # Очищаем транзакции
+    save_transactions('data/transactions.csv', transactions)  # Сохраняем пустой список в файл
+    print("Все транзакции были успешно удалены.")
+
+
 def main():
+    global transactions
     transactions = load_transactions('data/transactions.csv')
     while True:
         print_menu()
@@ -75,6 +87,8 @@ def main():
         elif choice == '5':
             handle_list_transactions(transactions)
         elif choice == '6':
+            handle_clear_transactions()
+        elif choice == '7':
             print("Выход из программы.")
             sys.exit(0)
         else:

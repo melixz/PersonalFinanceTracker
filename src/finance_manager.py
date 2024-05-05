@@ -77,3 +77,12 @@ def list_transactions(transactions):
         transaction_info = f"{index}. Дата: {transaction['Дата']}, Категория: {transaction['Категория']}, Сумма: {transaction['Сумма']}, Описание: {transaction['Описание']}"
         result.append(transaction_info)
     return "\n".join(result)
+
+
+def clear_transactions():
+    """
+    Очищает все сохраненные транзакции.
+
+    :return: Пустой список транзакций.
+    """
+    return []
