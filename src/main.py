@@ -54,7 +54,9 @@ def handle_edit_transaction(trans_edit):
     transaction_index = int(input("Введите номер транзакции для редактирования: ")) - 1
     if 0 <= transaction_index < len(trans_edit):
         date = input("Введите новую дату (ГГГГ-ММ-ДД): ")
-        category = input("Введите новую категорию (Доход/Расход): ")
+        print("Выберите новую категорию:\n 1. Доход\n 2. Расход")
+        category_choice = input("Ваш выбор (1 или 2): ")
+        category = 'Доход' if category_choice == '1' else 'Расход'
         amount = input("Введите новую сумму: ")
         description = input("Введите новое описание: ")
         updated_transaction = {'Дата': date, 'Категория': category, 'Сумма': amount, 'Описание': description}
@@ -92,19 +94,30 @@ def handle_clear_transactions():
 
 def handle_search_transactions():
     """
-    Обрабатывает поиск транзакций по категории, дате и сумме.
+    Обрабатывает поиск транзакций по заданным критериям.
     """
     print("Введите критерии поиска:")
-    category = input("Категория (оставьте пустым, если не требуется): ")
-    date = input("Дата (ГГГГ-ММ-ДД, оставьте пустым, если не требуется): ")
-    amount_input = input("Сумма (оставьте пустым, если не требуется): ")
-    amount = int(amount_input) if amount_input else None
+    print("Категория:\n 1. Доход\n 2. Расход\n 3. Любая")
+    category_choice = input("Ваш выбор (оставьте пустым для всех): ")
+    category = None
+    if category_choice == '1':
+        category = 'Доход'
+    elif category_choice == '2':
+        category = 'Расход'
+    elif category_choice == '3' or category_choice == '':
+        category = None
 
-    found_transactions = search_transactions(transactions, category if category else None, date if date else None,
-                                             amount)
-    if found_transactions:
-        print("\nНайденные транзакции:")
-        for transaction in found_transactions:
+    date = input("Дата (оставьте пустым, если не требуется): ")
+    amount = input("Сумма (оставьте пустым, если не требуется): ")
+    try:
+        amount = int(amount) if amount else None
+    except ValueError:
+        print("Некорректное значение суммы. Поиск будет выполнен без учета суммы.")
+        amount = None
+
+    filtered_transactions = search_transactions(transactions, category, date, amount)
+    if filtered_transactions:
+        for transaction in filtered_transactions:
             print_transaction(transaction)
     else:
         print("Транзакции не найдены.")
