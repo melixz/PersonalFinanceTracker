@@ -4,6 +4,9 @@ from finance_manager import add_transaction, edit_transaction, calculate_balance
 from storage import load_transactions, save_transactions
 
 
+transactions = []
+
+
 def print_menu():
     print("\nДобро пожаловать в личный финансовый кошелек!")
     print("1. Показать баланс")
@@ -15,7 +18,7 @@ def print_menu():
     print("7. Выход")
 
 
-def handle_add_transaction(transactions):
+def handle_add_transaction(trans_add):
     """
     Запрашивает данные у пользователя и добавляет новую транзакцию.
     """
@@ -24,38 +27,38 @@ def handle_add_transaction(transactions):
     amount = input("Введите сумму: ")
     description = input("Введите описание: ")
     new_transaction = {'Дата': date, 'Категория': category, 'Сумма': amount, 'Описание': description}
-    transactions = add_transaction(transactions, new_transaction)
-    save_transactions('data/transactions.csv', transactions)
+    trans_add = add_transaction(trans_add, new_transaction)
+    save_transactions('data/transactions.csv', trans_add)
     print("Транзакция добавлена.")
 
 
-def handle_edit_transaction(transactions):
+def handle_edit_transaction(trans_edit):
     """
     Обрабатывает редактирование существующей транзакции.
     """
     transaction_index = int(input("Введите номер транзакции для редактирования: ")) - 1
-    if 0 <= transaction_index < len(transactions):
+    if 0 <= transaction_index < len(trans_edit):
         date = input("Введите новую дату (ГГГГ-ММ-ДД): ")
         category = input("Введите новую категорию (Доход/Расход): ")
         amount = input("Введите новую сумму: ")
         description = input("Введите новое описание: ")
         updated_transaction = {'Дата': date, 'Категория': category, 'Сумма': amount, 'Описание': description}
-        edit_transaction(transactions, transaction_index, updated_transaction)
-        save_transactions('data/transactions.csv', transactions)
+        edit_transaction(trans_edit, transaction_index, updated_transaction)
+        save_transactions('data/transactions.csv', trans_edit)
         print("Транзакция обновлена.")
     else:
         print("Неверный номер транзакции.")
 
 
-def handle_list_transactions(transactions):
+def handle_list_transactions(trans_list):
     """
     Обрабатывает вывод всех транзакций.
     """
     print("\nСписок всех транзакций:")
-    print(list_transactions(transactions))
+    print(list_transactions(trans_list))
 
 
-def handle_search_transactions(transactions):
+def handle_search_transactions():
     pass
 
 
@@ -83,7 +86,7 @@ def main():
         elif choice == '3':
             handle_edit_transaction(transactions)
         elif choice == '4':
-            handle_search_transactions(transactions)
+            handle_search_transactions()
         elif choice == '5':
             handle_list_transactions(transactions)
         elif choice == '6':
