@@ -1,4 +1,5 @@
 import sys
+import time
 
 from finance_manager import add_transaction, edit_transaction, search_transactions, calculate_balance, \
     list_transactions, clear_transactions
@@ -42,6 +43,8 @@ def handle_add_transaction(trans_add):
     trans_add = add_transaction(trans_add, new_transaction)
     save_transactions('data/transactions.csv', trans_add)
     print("Транзакция добавлена.")
+    time.sleep(0.5)  # Задержка на 0.5 секунды
+    input("Нажмите любую клавишу для продолжения...")
 
 
 def handle_edit_transaction(trans_edit):
@@ -60,6 +63,8 @@ def handle_edit_transaction(trans_edit):
         print("Транзакция обновлена.")
     else:
         print("Неверный номер транзакции.")
+        time.sleep(0.5)  # Задержка на 0.5 секунды
+        input("Нажмите любую клавишу для продолжения...")
 
 
 def handle_list_transactions(trans_list):
@@ -69,6 +74,8 @@ def handle_list_transactions(trans_list):
     print("\nСписок всех транзакций:")
     transactions_info = list_transactions(trans_list)
     print(transactions_info)
+    time.sleep(0.5)  # Задержка на 0.5 секунды
+    input("Нажмите любую клавишу для продолжения...")
 
 
 def handle_clear_transactions():
@@ -79,6 +86,8 @@ def handle_clear_transactions():
     transactions = clear_transactions()  # Очищаем транзакции
     save_transactions('data/transactions.csv', transactions)  # Сохраняем пустой список в файл
     print("Все транзакции были успешно удалены.")
+    time.sleep(0.5)  # Задержка на 0.5 секунды
+    input("Нажмите любую клавишу для продолжения...")
 
 
 def handle_search_transactions():
@@ -99,6 +108,8 @@ def handle_search_transactions():
             print_transaction(transaction)
     else:
         print("Транзакции не найдены.")
+    time.sleep(0.5)  # Задержка на 0.5 секунды
+    input("Нажмите любую клавишу для продолжения...")
 
 
 def main():
@@ -110,6 +121,8 @@ def main():
         if choice == '1':
             balance = calculate_balance(transactions)
             print(f"Баланс: {balance['Баланс']}, Доходы: {balance['Доходы']}, Расходы: {balance['Расходы']}")
+            time.sleep(0.5)  # Задержка на 0.5 секунды
+            input("Нажмите любую клавишу для продолжения...")
         elif choice == '2':
             handle_add_transaction(transactions)
         elif choice == '3':
