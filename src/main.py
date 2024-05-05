@@ -1,10 +1,20 @@
 import sys
 
-from finance_manager import add_transaction, edit_transaction, calculate_balance, list_transactions, clear_transactions
+from finance_manager import add_transaction, edit_transaction, search_transactions, calculate_balance, \
+    list_transactions, clear_transactions
 from storage import load_transactions, save_transactions
 
-
 transactions = []
+
+
+def print_transaction(transaction):
+    """
+    Печатает транзакцию в форматированном виде.
+    """
+    print(f"\nДата: {transaction['Дата']}")
+    print(f"Категория: {transaction['Категория']}")
+    print(f"Сумма: {transaction['Сумма']}")
+    print(f"Описание: {transaction['Описание']}\n")
 
 
 def print_menu():
@@ -23,7 +33,9 @@ def handle_add_transaction(trans_add):
     Запрашивает данные у пользователя и добавляет новую транзакцию.
     """
     date = input("Введите дату (ГГГГ-ММ-ДД): ")
-    category = input("Введите категорию (Доход/Расход): ")
+    print("Выберите категорию:\n 1. Доход\n 2. Расход")
+    category_choice = input("Ваш выбор (1 или 2): ")
+    category = 'Доход' if category_choice == '1' else 'Расход'
     amount = input("Введите сумму: ")
     description = input("Введите описание: ")
     new_transaction = {'Дата': date, 'Категория': category, 'Сумма': amount, 'Описание': description}
@@ -55,11 +67,8 @@ def handle_list_transactions(trans_list):
     Обрабатывает вывод всех транзакций.
     """
     print("\nСписок всех транзакций:")
-    print(list_transactions(trans_list))
-
-
-def handle_search_transactions():
-    pass
+    transactions_info = list_transactions(trans_list)
+    print(transactions_info)
 
 
 def handle_clear_transactions():
@@ -70,6 +79,26 @@ def handle_clear_transactions():
     transactions = clear_transactions()  # Очищаем транзакции
     save_transactions('data/transactions.csv', transactions)  # Сохраняем пустой список в файл
     print("Все транзакции были успешно удалены.")
+
+
+def handle_search_transactions():
+    """
+    Обрабатывает поиск транзакций по категории, дате и сумме.
+    """
+    print("Введите критерии поиска:")
+    category = input("Категория (оставьте пустым, если не требуется): ")
+    date = input("Дата (ГГГГ-ММ-ДД, оставьте пустым, если не требуется): ")
+    amount_input = input("Сумма (оставьте пустым, если не требуется): ")
+    amount = int(amount_input) if amount_input else None
+
+    found_transactions = search_transactions(transactions, category if category else None, date if date else None,
+                                             amount)
+    if found_transactions:
+        print("\nНайденные транзакции:")
+        for transaction in found_transactions:
+            print_transaction(transaction)
+    else:
+        print("Транзакции не найдены.")
 
 
 def main():

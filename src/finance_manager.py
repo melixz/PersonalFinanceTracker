@@ -74,7 +74,12 @@ def list_transactions(transactions):
     """
     result = []
     for index, transaction in enumerate(transactions, start=1):
-        transaction_info = f"{index}. Дата: {transaction['Дата']}, Категория: {transaction['Категория']}, Сумма: {transaction['Сумма']}, Описание: {transaction['Описание']}"
+        transaction_info = (
+            f"{index}. Дата: {transaction['Дата']}\n"
+            f"    Категория: {transaction['Категория']}\n"
+            f"    Сумма: {transaction['Сумма']}\n"
+            f"    Описание: {transaction['Описание']}\n"
+        )
         result.append(transaction_info)
     return "\n".join(result)
 
