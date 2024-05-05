@@ -18,6 +18,7 @@ def load_transactions(filepath: str) -> List[Dict[str, str]]:
 
 
 def save_transactions(filepath: str, transactions_new):
+    """Сохранение транзакций в CSV файл."""
     # Проверяем, есть ли директория в пути, и если нет, то используем текущую директорию
     directory = os.path.dirname(filepath) or '.'
     os.makedirs(directory, exist_ok=True)  # Убедитесь, что директория существует
