@@ -1,6 +1,6 @@
 import sys
 import time
-import datetime
+from _datetime import datetime
 
 from finance_manager import add_transaction, edit_transaction, search_transactions, calculate_balance, \
     list_transactions, clear_transactions
@@ -13,9 +13,10 @@ def print_transaction(transaction):
     """
     Печатает транзакцию в форматированном виде.
     """
+    amount = int(transaction['Сумма'])  # Преобразуем строку в число для безопасного форматирования
     print(f"\nДата: {transaction['Дата']}")
     print(f"Категория: {transaction['Категория']}")
-    print(f"Сумма: {transaction['Сумма']}")
+    print(f"Сумма: {amount:,}")  # Форматирование суммы с разделителями тысяч
     print(f"Описание: {transaction['Описание']}\n")
 
 
@@ -30,20 +31,36 @@ def print_menu():
     print("7. Выход")
 
 
-def validate_date(date_string):
+def validate_date(date_str):
+    """
+    Проверяет, что введенная дата корректна и соответствует формату ГГГГ-ММ-ДД.
+
+    :param date_str: Строка с датой
+    :return: Строка с датой или None, если дата невалидна
+    """
     try:
-        return datetime.datetime.strptime(date_string, "%Y-%m-%d").date()
+        datetime.strptime(date_str, "%Y-%m-%d")
+        return date_str
     except ValueError:
-        print("Неверный формат даты. Используйте формат ГГГГ-ММ-ДД.")
+        print("Некорректный формат даты. Пожалуйста, используйте формат ГГГГ-ММ-ДД.")
         return None
 
 
-def validate_amount(amount_string):
+def validate_amount(amount_str):
+    """
+    Проверяет, что введенная сумма корректна и является числом.
+
+    :param amount_str: Строка с суммой
+    :return: Сумма в виде строки без разделителей или None, если сумма невалидна
+    """
     try:
-        amount = int(amount_string)
-        return f"{amount:,}".replace(',', ' ')
+        # Удаляем запятые для поддержки разделителей тысяч
+        clean_amount_str = amount_str.replace(',', '')
+        # Преобразуем в число для проверки
+        amount = int(clean_amount_str)
+        return str(amount)  # Возвращаем строковое представление для единообразия
     except ValueError:
-        print("Неверный формат суммы. Пожалуйста, введите число.")
+        print("Некорректная сумма. Введите число.")
         return None
 
 
@@ -54,14 +71,17 @@ def handle_add_transaction(trans_add):
     date_input = input("Введите дату (ГГГГ-ММ-ДД): ")
     date = validate_date(date_input)
     if date is None:
-        return
+        return  # Возвращаемся, если дата некорректна
+
     print("Выберите категорию:\n 1. Доход\n 2. Расход")
     category_choice = input("Ваш выбор (1 или 2): ")
     category = 'Доход' if category_choice == '1' else 'Расход'
+
     amount_input = input("Введите сумму: ")
     amount = validate_amount(amount_input)
     if amount is None:
-        return
+        return  # Возвращаемся, если сумма некорректна
+
     description = input("Введите описание: ")
     new_transaction = {'Дата': date, 'Категория': category, 'Сумма': amount, 'Описание': description}
     trans_add = add_transaction(trans_add, new_transaction)

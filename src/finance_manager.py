@@ -57,10 +57,11 @@ def calculate_balance(transactions: List[Dict[str, str]]) -> Dict[str, int]:
     """
     balance = {'Баланс': 0, 'Доходы': 0, 'Расходы': 0}
     for transaction in transactions:
+        cleaned_sum = transaction['Сумма'].replace(' ', '')  # Удаление пробелов
         if transaction['Категория'] == 'Доход':
-            balance['Доходы'] += int(transaction['Сумма'])
+            balance['Доходы'] += int(cleaned_sum)
         elif transaction['Категория'] == 'Расход':
-            balance['Расходы'] += int(transaction['Сумма'])
+            balance['Расходы'] += int(cleaned_sum)
     balance['Баланс'] = balance['Доходы'] - balance['Расходы']
     return balance
 
