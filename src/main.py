@@ -1,30 +1,29 @@
 import sys
+
+from finance_manager import add_transaction, edit_transaction, calculate_balance, list_transactions
 from storage import load_transactions, save_transactions
-from finance_manager import add_transaction, edit_transaction, search_transactions, calculate_balance
 
 
 def print_menu():
-    """
-    Выводит на экран основное меню приложения.
-    """
     print("\nДобро пожаловать в личный финансовый кошелек!")
     print("1. Показать баланс")
     print("2. Добавить транзакцию")
     print("3. Редактировать транзакцию")
     print("4. Поиск транзакций")
-    print("5. Выход")
+    print("5. Просмотреть все транзакции")
+    print("6. Выход")
 
 
 def handle_add_transaction(transactions):
     """
-    Обрабатывает добавление новой транзакции.
+    Запрашивает данные у пользователя и добавляет новую транзакцию.
     """
     date = input("Введите дату (ГГГГ-ММ-ДД): ")
     category = input("Введите категорию (Доход/Расход): ")
     amount = input("Введите сумму: ")
     description = input("Введите описание: ")
     new_transaction = {'Дата': date, 'Категория': category, 'Сумма': amount, 'Описание': description}
-    add_transaction(transactions, new_transaction)
+    transactions = add_transaction(transactions, new_transaction)
     save_transactions('data/transactions.csv', transactions)
     print("Транзакция добавлена.")
 
@@ -47,6 +46,18 @@ def handle_edit_transaction(transactions):
         print("Неверный номер транзакции.")
 
 
+def handle_list_transactions(transactions):
+    """
+    Обрабатывает вывод всех транзакций.
+    """
+    print("\nСписок всех транзакций:")
+    print(list_transactions(transactions))
+
+
+def handle_search_transactions(transactions):
+    pass
+
+
 def main():
     transactions = load_transactions('data/transactions.csv')
     while True:
@@ -60,13 +71,10 @@ def main():
         elif choice == '3':
             handle_edit_transaction(transactions)
         elif choice == '4':
-            category = input("Введите категорию для поиска: ")
-            date = input("Введите дату для поиска: ")
-            amount = input("Введите сумму для поиска: ")
-            found_transactions = search_transactions(transactions, category, date, int(amount) if amount else None)
-            for t in found_transactions:
-                print(t)
+            handle_search_transactions(transactions)
         elif choice == '5':
+            handle_list_transactions(transactions)
+        elif choice == '6':
             print("Выход из программы.")
             sys.exit(0)
         else:

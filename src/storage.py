@@ -1,4 +1,5 @@
 import csv
+import os
 from typing import List, Dict
 
 
@@ -16,17 +17,17 @@ def load_transactions(filepath: str) -> List[Dict[str, str]]:
     return transactions
 
 
-def save_transactions(filepath: str, transactions: List[Dict[str, str]]) -> None:
-    """Сохранение списка транзакций в CSV файл."""
+def save_transactions(filepath: str, transactions):
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)  # Убедитесь, что директория существует
+    fieldnames = ['Дата', 'Категория', 'Сумма', 'Описание']
     try:
         with open(filepath, mode='w', newline='', encoding='utf-8') as file:
-            fieldnames = ['Дата', 'Категория', 'Сумма', 'Описание']
             writer = csv.DictWriter(file, fieldnames=fieldnames)
             writer.writeheader()
             for transaction in transactions:
                 writer.writerow(transaction)
     except Exception as e:
-        print(f"Произошла ошибка при записи в файл: {e}")
+        print(f"Ошибка при записи в файл: {e}")
 
 
 # Пример использования:

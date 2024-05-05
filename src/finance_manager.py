@@ -14,7 +14,7 @@ def add_transaction(transactions: List[Dict[str, str]], new_transaction: Dict[st
 
 
 def edit_transaction(transactions: List[Dict[str, str]], transaction_index: int, updated_transaction: Dict[str, str]) -> \
-List[Dict[str, str]]:
+        List[Dict[str, str]]:
     """
     Редактирует существующую транзакцию в списке по указанному индексу.
 
@@ -63,3 +63,17 @@ def calculate_balance(transactions: List[Dict[str, str]]) -> Dict[str, int]:
             balance['Расходы'] += int(transaction['Сумма'])
     balance['Баланс'] = balance['Доходы'] - balance['Расходы']
     return balance
+
+
+def list_transactions(transactions):
+    """
+    Возвращает строку, содержащую список всех транзакций с номерами.
+
+    :param transactions: список словарей, каждый из которых представляет транзакцию.
+    :return: строка с пронумерованным списком транзакций.
+    """
+    result = []
+    for index, transaction in enumerate(transactions, start=1):
+        transaction_info = f"{index}. Дата: {transaction['Дата']}, Категория: {transaction['Категория']}, Сумма: {transaction['Сумма']}, Описание: {transaction['Описание']}"
+        result.append(transaction_info)
+    return "\n".join(result)
