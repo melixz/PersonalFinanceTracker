@@ -1,6 +1,7 @@
 import sys
 import time
 from _datetime import datetime
+from typing import List, Dict, Optional
 
 from finance_manager import add_transaction, edit_transaction, search_transactions, calculate_balance, \
     list_transactions, clear_transactions
@@ -9,7 +10,7 @@ from storage import load_transactions, save_transactions
 transactions = []
 
 
-def print_transaction(transaction):
+def print_transaction(transaction: Dict[str, str]) -> None:
     """
     Печатает транзакцию в форматированном виде.
     """
@@ -31,7 +32,7 @@ def print_menu():
     print("7. Выход")
 
 
-def validate_date(date_str):
+def validate_date(date_str: str) -> Optional[str]:
     """
     Проверяет, что введенная дата корректна и соответствует формату ГГГГ-ММ-ДД.
 
@@ -46,7 +47,7 @@ def validate_date(date_str):
         return None
 
 
-def validate_amount(amount_str):
+def validate_amount(amount_str: str) -> Optional[str]:
     """
     Проверяет, что введенная сумма корректна и является числом.
 
@@ -64,7 +65,7 @@ def validate_amount(amount_str):
         return None
 
 
-def handle_add_transaction(trans_add):
+def handle_add_transaction(trans_add: List[Dict[str, str]]) -> None:
     """
     Запрашивает данные у пользователя и добавляет новую транзакцию.
     """
