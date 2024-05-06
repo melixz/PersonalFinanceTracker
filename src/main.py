@@ -99,28 +99,41 @@ def handle_edit_transaction(trans_edit):
     """
     Обрабатывает редактирование существующей транзакции.
     """
-    transaction_index = int(input("Введите номер транзакции для редактирования: ")) - 1
-    if 0 <= transaction_index < len(trans_edit):
-        date_input = input("Введите новую дату (ГГГГ-ММ-ДД): ")
-        date = validate_date(date_input)
-        if date is None:
+    while True:
+        index_input = input("Введите номер транзакции для редактирования (или нажмите Enter для отмены): ")
+        if index_input == "":
+            print("Редактирование отменено.")
             return
-        print("Выберите новую категорию:\n 1. Доход\n 2. Расход")
-        category_choice = input("Ваш выбор (1 или 2): ")
-        category = 'Доход' if category_choice == '1' else 'Расход'
-        amount_input = input("Введите новую сумму: ")
-        amount = validate_amount(amount_input)
-        if amount is None:
-            return
-        description = input("Введите новое описание: ")
-        updated_transaction = {'Дата': date, 'Категория': category, 'Сумма': amount, 'Описание': description}
-        edit_transaction(trans_edit, transaction_index, updated_transaction)
-        save_transactions('data/transactions.csv', trans_edit)
-        print("Транзакция обновлена.")
-    else:
-        print("Неверный номер транзакции.")
-        time.sleep(0.5)  # Задержка на 0.5 секунды
-        input("Нажмите любую клавишу для продолжения...")
+        try:
+            transaction_index = int(index_input) - 1
+            if 0 <= transaction_index < len(trans_edit):
+                break
+            else:
+                print("Неверный номер транзакции. Пожалуйста, попробуйте снова.")
+        except ValueError:
+            print("Пожалуйста, введите корректный числовой индекс.")
+
+    date_input = input("Введите новую дату (ГГГГ-ММ-ДД): ")
+    date = validate_date(date_input)
+    if date is None:
+        return
+
+    print("Выберите новую категорию:\n 1. Доход\n 2. Расход")
+    category_choice = input("Ваш выбор (1 или 2): ")
+    category = 'Доход' if category_choice == '1' else 'Расход'
+
+    amount_input = input("Введите новую сумму: ")
+    amount = validate_amount(amount_input)
+    if amount is None:
+        return
+
+    description = input("Введите новое описание: ")
+    updated_transaction = {'Дата': date, 'Категория': category, 'Сумма': amount, 'Описание': description}
+    edit_transaction(trans_edit, transaction_index, updated_transaction)
+    save_transactions('data/transactions.csv', trans_edit)
+    print("Транзакция обновлена.")
+    time.sleep(0.5)  # Задержка на 0.5 секунды
+    input("Нажмите любую клавишу для продолжения...")
 
 
 def handle_list_transactions(trans_list):
