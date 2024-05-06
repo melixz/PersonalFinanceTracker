@@ -1,13 +1,27 @@
 import sys
 import time
+
 from _datetime import datetime
 from typing import List, Dict, Optional
-
 from finance_manager import add_transaction, edit_transaction, search_transactions, calculate_balance, \
     list_transactions, clear_transactions
 from storage import load_transactions, save_transactions
 
 transactions = []
+
+
+def print_menu():
+    """
+    Печатает меню выбора команд в терминале
+    """
+    print("\nДобро пожаловать в личный финансовый кошелек!")
+    print("1. Показать баланс")
+    print("2. Добавить транзакцию")
+    print("3. Редактировать транзакцию")
+    print("4. Поиск транзакций")
+    print("5. Просмотреть все транзакции")
+    print("6. Очистить все транзакции")
+    print("7. Выход")
 
 
 def print_transaction(transaction: Dict[str, str]) -> None:
@@ -19,17 +33,6 @@ def print_transaction(transaction: Dict[str, str]) -> None:
     print(f"Категория: {transaction['Категория']}")
     print(f"Сумма: {amount:,}")  # Форматирование суммы с разделителями тысяч
     print(f"Описание: {transaction['Описание']}\n")
-
-
-def print_menu():
-    print("\nДобро пожаловать в личный финансовый кошелек!")
-    print("1. Показать баланс")
-    print("2. Добавить транзакцию")
-    print("3. Редактировать транзакцию")
-    print("4. Поиск транзакций")
-    print("5. Просмотреть все транзакции")
-    print("6. Очистить все транзакции")
-    print("7. Выход")
 
 
 def validate_date(date_str: str) -> Optional[str]:

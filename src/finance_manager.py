@@ -13,8 +13,8 @@ def add_transaction(transactions: List[Dict[str, str]], new_transaction: Dict[st
     return transactions
 
 
-def edit_transaction(transactions: List[Dict[str, str]], transaction_index: int, updated_transaction: Dict[str, str]) -> \
-        List[Dict[str, str]]:
+def edit_transaction(transactions: List[Dict[str, str]], transaction_index: int, updated_transaction: Dict[str, str]) \
+        -> List[Dict[str, str]]:
     """
     Редактирует существующую транзакцию в списке по указанному индексу.
 
