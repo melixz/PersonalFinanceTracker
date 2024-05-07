@@ -30,10 +30,6 @@ Copy code
 
 Перейдите в директорию проекта и запустите файл `main.py` с помощью Python:
 
-cd yourrepositoryname
-python src/main.py
-
-shell
-Copy code
+`cd yourrepositoryname` -> `python src/main.py`
 
 Следуйте инструкциям в консольном интерфейсе для управления вашими финансами.
