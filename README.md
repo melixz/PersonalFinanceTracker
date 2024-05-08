@@ -19,12 +19,9 @@
 
 1. **Клонирование репозитория**
 
-   Сначала клонируйте репозиторий на ваш локальный компьютер с помощью следующей команды:
+Сначала клонируйте репозиторий на ваш локальный компьютер с помощью следующей команды:
 
-git clone https://github.com/melixz/PersonalFinanceTracker
-
-markdown
-Copy code
+`git clone https://github.com/melixz/PersonalFinanceTracker`
 
 2. **Запуск приложения**
 
