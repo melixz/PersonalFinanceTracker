@@ -31,12 +31,15 @@
 
 Сначала клонируйте репозиторий на ваш локальный компьютер с помощью следующей команды:
 
-`git clone https://github.com/melixz/PersonalFinanceTracker`
-
+```bash
+git clone https://github.com/melixz/PersonalFinanceTracker
+```
 2. **Запуск приложения**
 
 Перейдите в директорию проекта и запустите файл `main.py` с помощью Python:
 
-`cd yourrepositoryname` -> `python src/main.py`
+```bash
+cd yourrepositoryname -> python src/main.py
+```
 
 Следуйте инструкциям в консольном интерфейсе для управления вашими финансами.
